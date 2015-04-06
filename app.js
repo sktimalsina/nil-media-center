@@ -65,6 +65,18 @@ io.on('connection', function(socket){
 
     socket.on('command', function(msg){
         console.log('command: '+ msg);
+        var exec = require('child_process').exec;
+        exec(msg, function(error, stdout, stderr) {
+            console.log('stdout: ' + stdout);
+            console.log('stderr: ' + stderr);
+            output = stdout + stderr;
+            if (error !== null) {
+                console.log('exec error: ' + error);
+                output += error;
+            }
+
+            socket.emit('output', output);
+        });
     });
 });
 

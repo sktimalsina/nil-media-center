@@ -5,13 +5,25 @@
     <title> PI Server</title>
 </head>
 <body>
-    Hello
+    Command:
+    <input id="commandInput" type="text"/>
+    <button onClick="Submit()">Execute</button>
+
+    <br>
+
+    <textarea name="" id="consoleOut" cols="50" rows="20"></textarea>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
         var socket = io();
+        var Submit = function(){
+            command = $('#commandInput').val();
+            socket.emit('command', ''+command);
+        }
 
-        socket.emit('command', 'object');
-    </script>
+        socket.on('output', function(msg){
+            $('#consoleOut').val(msg);
+        });
+        </script>
 </body>
 </html>
